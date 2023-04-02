@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: v003-create-user-table
+      author: Joao Vitor de Oliveira Santos
+      context: ddl
+      changes:
+        - createTable:
+            schemaName: APPLICATION
+            tableName: TB_USERS
+            columns:
+              - column:
+                  name: ID
+                  type: NUMERIC
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_USER
+              - column:
+                  name: NAME
+                  type: VARCHAR2(90)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: EMAIL
+                  type: VARCHAR2(120)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: PASSWORD
+                  type: VARCHAR2(100)
+                  constraints:
+                    nullable: false
