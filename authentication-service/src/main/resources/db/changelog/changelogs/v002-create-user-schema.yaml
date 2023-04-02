@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: v002-create-user-schema
+      author: Joao Vitor de Oliveira Santos
+      context: ddl
+      changes:
+        - createSequence:
+            schemaName: APPLICATION
+            sequenceName: SQ_USERS
+            startValue: 1
+            incrementBy: 1
