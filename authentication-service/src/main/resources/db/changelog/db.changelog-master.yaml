@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: "db/changelog/changelogs/v001-create-database-schema.yaml"
+  - include:
+      file: "db/changelog/changelogs/v002-create-user-schema.yaml"
+  - include:
+      file: "db/changelog/changelogs/v003-create-user-table.yaml"
