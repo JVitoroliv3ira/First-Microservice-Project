@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: v001-create-database-scheema
+      id: v001-create-database-schema
       author: Joao Vitor de Oliveira Santos
       context: ddl
       changes:
