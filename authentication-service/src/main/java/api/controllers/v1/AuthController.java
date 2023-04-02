@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,14 @@ import java.util.List;
 public class AuthController {
 
     private final UserService userService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @PostMapping(path = "/register")
     public ResponseEntity<ResponseDTO<User>> register(@RequestBody @Valid UserRegisterRequestDTO request) {
         try {
             this.userService.uniqueEmailCheck(request.getEmail());
             User result = this.userService.create(request.convert());
+            this.kafkaTemplate.send("greetings-email", request.getEmail());
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(new ResponseDTO<>(result, null));
