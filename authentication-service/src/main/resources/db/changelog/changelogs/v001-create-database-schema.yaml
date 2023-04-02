@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: v001-create-database-scheema
+      author: Joao Vitor de Oliveira Santos
+      context: ddl
+      changes:
+        - sql:
+            sql: CREATE SCHEMA APPLICATION;
