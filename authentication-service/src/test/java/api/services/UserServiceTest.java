@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     private final static String ENTITY_NOT_FOUND_MESSAGE = "Não foi possível encontrar o usuário requisitado.";
+    private final static String EMAIL_IN_USE_MESSAGE = "O email informado já está sendo utilizado por outra conta.";
     @Mock
     private final UserRepository userRepository;
     private UserService userService;
@@ -119,5 +120,22 @@ class UserServiceTest {
         assertThatThrownBy(() -> this.userService.delete(payload))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining(ENTITY_NOT_FOUND_MESSAGE);
+    }
+
+    @Test
+    void unique_email_check_should_call_exists_by_email_method_of_user_repository() {
+        String payload = "test@test.com";
+        when(this.userRepository.existsByEmail(payload)).thenReturn(Boolean.FALSE);
+        this.userService.uniqueEmailCheck(payload);
+        verify(this.userRepository, times(1)).existsByEmail(payload);
+    }
+
+    @Test
+    void unique_email_check_should_throw_an_exception_when_the_requested_email_is_already_registered() {
+        String payload = "test@test.com";
+        when(this.userRepository.existsByEmail(payload)).thenReturn(Boolean.TRUE);
+        assertThatThrownBy(() -> this.userService.uniqueEmailCheck(payload))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining(EMAIL_IN_USE_MESSAGE);
     }
 }
